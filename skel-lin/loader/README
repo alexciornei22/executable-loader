@@ -1,0 +1,14 @@
+In the utils files I implemented helper functions for the default handler:
+    - get_segment(): returns the segment which contains the specified address,
+or -1 if the address is not cointained in any segment;
+    - get_page_in_segment(): returns the page in the given segment which contains
+the specified address;
+    - is_page_mapped(): checks if a page has already been mapped, to determine if or not
+to call the default signal handler;
+
+The signal handler checks if a the accessed addressed is contained within any of the
+executable's segments. If it is, it finds the page which should contain the address and
+checks if that page has already been mapped. If not, it maps the page, initializing it with 0 (this is done with the flag MAP_ANON). I then checks if the address is contained
+within the segment's file memory and loads the contents of the file into it if necessary.
+
+I used a static variable "fd" to hold the executable's file descriptor returned by the open() function call.
